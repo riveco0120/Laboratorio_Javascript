@@ -1,8 +1,8 @@
 (function(){
 
-    var self,Board = function(width,height){
-        this._width=width;
-        this._height = height;
+     self.Board = function(width,height){
+        this.width=width;
+        this.height = height;
         this.palying = false;
         this.game_over=false;
         this.bars = [];
@@ -22,13 +22,21 @@
 })();
 
 (function(){
-    self.BoardView = function(canvas,borad){
-        this._canvas =canvas;
-        this._canvas.width = borad.width;
-        this._canvas.height= borad.height;
+    self.BoardView = function(canvas,board){
+        this.canvas =canvas;
+        this.canvas.width = board.width;
+        this.canvas.height= board.height;
+        this.borad = board;
+        this.contexto = canvas.getContext("2d");
 }
 })()
 
+window.addEventListener("load",main)
+
 function main(){
+
+    var board = new Board(800,400);
+    var canvas = document.getElementById('canvas');
+    var board_view = new BoardView(canvas,board);
 
 }
