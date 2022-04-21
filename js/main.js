@@ -94,6 +94,7 @@ function draw(contexto,element){
     }
 })();
 
+//actualizar 
 window.addEventListener("load",main)
 
 //Controlador
