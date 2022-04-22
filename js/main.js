@@ -1,6 +1,5 @@
 //Clase modelo
 (function(){
-
      self.Board = function(width,height){
         this.width=width;
         this.height = height;
@@ -31,6 +30,10 @@
         this.speedY=0;
         this.speedx=3;
         this.board = board;
+        this.direction=1;
+        this.bounceAngle=0;
+        this.maxBounceAngle = Math.PI/12;
+        this.speed=3;
         board.ball=this;
         this.kind="circle";
 
@@ -40,7 +43,27 @@
         move:function(){
             this.x += (this.speedx * this.direction);
             this.y +=(this.speedY);
+        },
+        get width(){
+            return this.radius*2;
+         },
+ 
+         get height(){
+             return this.radius*2;
+ 
+         },
+         collision:function(bar){
+            var relativeIntersectY = (bar.y +(bar.height/2))-this.y;
+            var normalizedIntersectY= relativeIntersectY/(bar.height/2);
+    
+            this.bounceAngle = normalizedIntersectY*this.maxBounceAngle;
+            this.speedY = this.speed * -Math.sin(this.bounceAngle);
+            this.speedx = this.speed * Math.cos(this.bounceAngle);
+    
+            if(this.x>(this.board.width/2)) this.direction =-1;
+            else this.direction=1;
         }
+ 
     }
 
 
@@ -84,7 +107,6 @@
         this.canvas = canvas;
         this.canvas.width = board.width;
         this.canvas.height = board.height;
-        this.canvas.height = board.height;;
         this.board = board;
         this.ctx = canvas.getContext("2d");
     }
