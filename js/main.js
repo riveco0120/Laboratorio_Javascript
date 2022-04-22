@@ -83,14 +83,7 @@ function draw(ctx,element){
 }
 })();
 
-//actualizar 
-window.addEventListener("load",main)
-
-//Controlador
-function main(){
-
-    //instanciar objetos
-    var board = new Board(800,400);
+var board = new Board(800,400);
     var bar = new Bar(20,100,40,100,board);
     var bar = new Bar(700,100,40,100,board);
     var canvas = document.getElementById('canvas');
@@ -98,5 +91,25 @@ function main(){
 
     var boardview = new BoardView(canvas,board)
    //Dibujando todos los elementos 
+    
+
+document.addEventListener("keydown",function(event){
+  
+    if(event.keyCode==38){
+        bar.up();
+    }
+
+    else if(event.keyCode==40){
+        bar.down()
+    }
+})
+
+//actualizar 
+self.addEventListener("load",main)
+
+//Controlador
+function main(){
+
+    //instanciar objetos
     boardview.draw();
 }
