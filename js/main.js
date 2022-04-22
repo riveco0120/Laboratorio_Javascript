@@ -44,7 +44,7 @@
         },
     
         up:function(){
-            this.y = this.speed;
+            this.y-= this.speed;
     
         },
         toString:function(){
