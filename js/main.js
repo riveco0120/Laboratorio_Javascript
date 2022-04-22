@@ -122,16 +122,56 @@
                 };
             },
 
+            checkCollisions:function(){
+                for (var i = this.board.bars.length -1; i>=0;i--){
+                   var bar = this.board.bars[i];
+                   if(hit(bar,this.board.ball)){
+                       this.board.ball.collision(bar); 
+    
+                   }
+                    
+                }
+    
+            },
+    
+
             play:function(){
                 if(this.board.palying==true){
                     this.clean();
                     this.draw();
+                    this.checkCollisions();
                     this.board.ball.move();
                 }
                
             }
 
         };
+
+        function hit(a,b){
+            var hit = false;
+    
+            if(b.x + b.width >= a.x && b.x < a.x + a.width){
+              if(b.y + b.height >= a.y && b.y < a.y + a.height){
+                hit=true;
+    
+                }  
+            }
+    
+            if(b.x <= a.y && b.x + b.width >= a.x + a.width){
+                if(b.y <= a.y && b.y + b.height >= a.y + a.height){
+                    hit = true;
+                }
+            }
+    
+            if(a.x <= b.x && a.x + a.width >= b.x + b.width){
+                if(a.y <= b.y && a.y + a.height >= b.y + b.height){
+                    hit = true;
+            }
+        }
+    
+            return hit;
+              
+        }
 
 //Dibujando los elemensto
 function draw(ctx,element){
@@ -160,17 +200,21 @@ var ball = new Ball(350,100,10,board);
 document.addEventListener("keydown",function(event){
 
     if(event.keyCode==38){
+        event.preventDefault();
         bar.up();
     }
 
     else if(event.keyCode==40){
+        event.preventDefault();
         bar.down()
     }
 
     else if(event.keyCode==87){
+        event.preventDefault();
         bar2.up();
     }
     else if(event.keyCode==83){
+        event.preventDefault();
         bar2.down();
     }
 
