@@ -12,10 +12,11 @@
 
     self.Board.prototype={
         get elements(){
-            var elements =this.bars;
+            var elements = this.bars;
             elements.push(this.ball);
             return elements;
         }
+
     }
 
 
@@ -24,74 +25,60 @@
 
 //Funcion para crear barras
 (function(){
-
-    self.Bar = function(x,y,width,height,board){
-        this.x =x;
-        this.y=y;
-        this.width=width;
-        this.height=height;
-        this.board=board;
-
-        //insertando elementos bar en el arreglo bars
+    self.Bar = function(x,y,whidth,height,board) {
+        this.x = x;
+        this.y = y;
+        this.width=whidth;
+        this.height = height;
+        this.board = board;
         this.board.bars.push(this);
-
-        //Dibujar las brras
-        this.kind="rectangle";
+        this.kind ="rectangle";
+    
     }
-
-    //Funciones para mover las barras
-    self.Bar.prototype={
+    
+    
+    self.Bar.prototype ={
         down:function(){
-
+    
         },
-
+    
         up:function(){
-
+    
         }
     }
-
-
-
-})();
-
+    
+    })();
 //Clase vista
 (function(){
-    self.BoardView = function(canvas,Board){
-        this.canvas =canvas;
-        this.canvas.width = Board.width;
-        this.canvas.height= Board.height;
-        this.Borad = Board;
-        this.contexto = canvas.getContext("2d");
-
-
-}
-
-   self.BoardView.prototype ={
-    draw:function(){
-        for (var i = this.board.elements.lenght-1; i>=0; i--) {
-            var elementoDibujado = this.board.elements[i];
-          
-            draw(this.contexto,elementoDibujado)
-        };
+    self.BoardView = function(canvas,board){
+        this.canvas = canvas;
+        this.canvas.width = board.width;
+        this.canvas.height = board.height;
+        this.canvas.height = board.height;;
+        this.board = board;
+        this.ctx = canvas.getContext("2d");
     }
-}
-
+        self.BoardView.prototype={
+            draw: function(){
+                for (var i = this.board.elements.length-1; i>=0; i--) {
+                    var el = this.board.elements[i];
+    
+                    draw(this.ctx,el)
+                };
+            }
+        };
 
 //Dibujando los elemensto
-function draw(contexto,element){
-    if(element!==null && element.hasOwnProperty("kind")){
-        switch ((element.kind)) {
-            case "rectangle":
-                //Funcion para dibujar el cuadrado con las cordenadas, altura y anchura
-                contexto.fillReact(element.x,element.y,element.width,element.height);
-               break;
-        
-               default:
-                break;
-        }
-        
+function draw(ctx,element){
+    if(element!== null && element.hasOwnProperty("kind")){
+    switch(element.kind){
+        case "rectangle":
+        ctx.fillRect(element.x,element.y,element.width,element.height);
+        break;
+
     }
-    }
+}
+}
 })();
 
 //actualizar 
@@ -103,11 +90,11 @@ function main(){
     //instanciar objetos
     var board = new Board(800,400);
     var bar = new Bar(20,100,40,100,board);
-    var barDos = new Bar(700,100,40,100,board);
+    var bar = new Bar(700,100,40,100,board);
     var canvas = document.getElementById('canvas');
     //Pasando el model a la vista
-    var board_view = new BoardView(canvas,board);
-   //Dibujando todos los elementos 
-    board_view.draw();
 
+    var boardview = new BoardView(canvas,board)
+   //Dibujando todos los elementos 
+    boardview.draw();
 }
