@@ -8,18 +8,17 @@
         this.gameOver=false;
         this.bars = [];
         this.ball = null;
+        this.palying=false;
     }
 
     self.Board.prototype={
         get elements(){
-            var elements = this.bars;
+            var elements = this.bars.map(function(bar){return bar;});
             elements.push(this.ball);
             return elements;
         }
 
     }
-
-
 
 })();
 
@@ -35,6 +34,13 @@
         board.ball=this;
         this.kind="circle";
 
+    }
+
+    self.Ball.prototype={
+        move:function(){
+            this.x += (this.speedx * this.direction);
+            this.y +=(this.speedY);
+        }
     }
 
 
@@ -95,9 +101,14 @@
             },
 
             play:function(){
-                this.clean();
-                this.draw();
+                if(this.board.palying==true){
+                    this.clean();
+                    this.draw();
+                    this.board.ball.move();
+                }
+               
             }
+
         };
 
 //Dibujando los elemensto
@@ -117,13 +128,12 @@ function draw(ctx,element){
 }
 })();
 
-    var board = new Board(800,400);
-    var bar = new Bar(20,100,40,100,board);
-    var bar2 = new Bar(700,100,40,100,board);
-    var canvas = document.getElementById('canvas');
-    //Pasando el model a la vista
-    var boardview = new BoardView(canvas,board)
-    var ball = new Ball(350,100,10,board);
+var board = new Board(800,400);
+var bar = new Bar(20,100,40,100,board);
+var bar2 = new Bar(740,100,40,100,board);
+var canvas = document.getElementById('canvas');
+var boardview = new BoardView(canvas,board)
+var ball = new Ball(350,100,10,board);
 
 document.addEventListener("keydown",function(event){
 
@@ -151,8 +161,13 @@ document.addEventListener("keydown",function(event){
 })
 //actualizar 
 
-window.requestAnimationFrame(controller);
+boardview.draw();
 
+window.requestAnimationFrame(controller);
+setTimeout(function(){
+    ball.direction=-1;
+
+},4000)
 
 //Controlador
 function controller(){
