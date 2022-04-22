@@ -13,9 +13,27 @@
     self.Board.prototype={
         get elements(){
             var elements = this.bars;
-           // elements.push(this.ball);
+            elements.push(this.ball);
             return elements;
         }
+
+    }
+
+
+
+})();
+
+//Clase para crear pelota 
+(function(){
+    self.Ball =function(x,y,radius,board){
+        this.x =x;
+        this.y = y;
+        this.radius = radius;
+        this.speedY=0;
+        this.speedx=3;
+        this.board = board;
+        board.ball=this;
+        this.kind="circle";
 
     }
 
@@ -74,6 +92,11 @@
     
                     draw(this.ctx,el)
                 };
+            },
+
+            play:function(){
+                this.clean();
+                this.draw();
             }
         };
 
@@ -83,6 +106,12 @@ function draw(ctx,element){
         case "rectangle":
         ctx.fillRect(element.x,element.y,element.width,element.height);
         break;
+        case "circle":
+            ctx.beginPath();
+            ctx.arc(element.x,element.y,element.radius,0,7);
+            ctx.fill();
+            ctx.closePath();
+            break;
 
 }
 }
@@ -93,10 +122,8 @@ function draw(ctx,element){
     var bar2 = new Bar(700,100,40,100,board);
     var canvas = document.getElementById('canvas');
     //Pasando el model a la vista
-
     var boardview = new BoardView(canvas,board)
-   //Dibujando todos los elementos 
-
+    var ball = new Ball(350,100,10,board);
 
 document.addEventListener("keydown",function(event){
 
@@ -131,8 +158,7 @@ window.requestAnimationFrame(controller);
 function controller(){
 
     //instanciar objetos
-    boardview.clean();
-    boardview.draw();
+    boardview.play();
     window.requestAnimationFrame(controller);
 
 }
